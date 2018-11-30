@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>父组件响应子组件添加的事件方法一</title>
+		<script src="JS/vue.js"></script>
+	</head>
+	<body>
+		<div id="root">
+			<msg  @clickss="handleClick"></msg>
+		</div>
+		<script type="text/javascript">
+			var msg = {
+				// 注意template中不能存字符串,必须存储html语句
+				template:'<h1 @click="childClick">Hello World</h1>',
+				methods:{
+					childClick:function(){
+						// alert("我是子元素")
+						this.$emit('clickss')
+					}
+				}
+			}
+			var root = new Vue({
+				el:'#root',
+				components:{
+					msg:msg
+				},
+				methods:{
+					handleClick:function(){
+						alert('我是父元素')
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

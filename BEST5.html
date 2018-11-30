@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动态组件与v-once</title>
+		<script src="JS/vue.js"></script>
+	</head>
+	<body>
+		<div id="root">
+			<one v-if='show === "one" '></one>
+			<two v-if='show === "two" '></two>
+			<!-- <component :is='show'></component> -->
+			<button @click="handleClick">交换</button>
+		</div>
+		<script type="text/javascript">		
+			Vue.component('one',{
+				template:"<div v-once>One</div>"
+			})
+			Vue.component('two',{
+				template:"<div v-once>Two</div>"
+			})
+			var root = new Vue({
+				el:'#root',	
+				data:{
+					show:'one'
+				},
+				methods:{
+					handleClick:function(){
+						this.show = this.show === 'one'?'two':'one'
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

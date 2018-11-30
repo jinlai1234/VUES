@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>父组件响应子组件添加的事件方法二</title>
+		<script src="JS/vue.js"></script>
+	</head>
+	<body>
+		<div id="root">
+			<!-- 加上native属性之后click后面的就不是自定义点击事件了，而是全局点击事件触发handleClick响应 -->
+			<msg @click.native="handleClick"></msg>
+		</div>
+		<script type="text/javascript">
+			var msg = {
+				// 注意template中不能存字符串,必须存储html语句
+				template:'<h1>Hello World</h1>',
+			}
+			var root = new Vue({
+				el:'#root',
+				components:{
+					msg:msg
+				},
+				methods:{
+					handleClick:function(){
+						alert('我是父元素')
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

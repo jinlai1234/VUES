@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>父子组件数据传递</title>
+		<script type="text/javascript" src="js/vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			<zxc ref='one' @change='handlechange' :counts='2'></zxc>
+			<zxc ref='two' @change='handlechange' :counts='3'></zxc>
+			<div ref='hello' @click="handleclick">HELLO WORLD</div>
+			<div >{{totle}}</div>
+			<fgh :counts='2'></fgh>
+		</div>
+		<script>
+			// 自定义非全局组件
+			var fgh = {
+				props:['counts'],
+				template:'<h1>{{numbers}}</h1>',
+				data:function(){
+					return {
+						numbers:this.counts
+					}
+				},
+				
+			};
+			// 自定义全局组件
+			Vue.component('zxc',{
+				props:['counts'],
+				template:'<h1 @click="clickss">{{message}}:{{numbers}}</h1>',
+				data:function(){
+					return {
+						message:0,
+						// 父组件中传递的数值不能被子组件更改
+						numbers:this.counts,
+					}
+				},
+				methods:{
+					clickss:function(){
+						this.message++
+						// alert('click')
+						this.numbers++
+						this.$emit('change')
+					},
+					handleclick:function(){
+						console.log(this.$refs.hello.innerText)
+					},
+					
+				}
+			})
+			// 自定义父组件
+			var as = new Vue({
+				el:'#app',
+				data:{
+					totle:0
+				},
+				components:{
+					fgh:fgh
+				},
+				methods:{
+					handleclick:function(){
+						// 当在标签上设置ref这里获取的是它的DOM元素
+						console.log(this.$refs.hello.innerText)
+					},
+					
+					handlechange:function(){
+						// 当在子组件上设置ref那么获取的是子组件的一个引用
+						this.totle = parseInt(this.$refs.one.$el.innerHTML)+parseInt(this.$refs.two.$el.innerHTML)+1
+					}
+				},
+				computed:{
+					
+				}
+			})
+		</script>
+	</body>
+</html>

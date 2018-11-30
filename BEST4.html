@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>插槽</title>
+		<script src="JS/vue.js"></script>
+	</head>
+	<body>
+		<div id="root">
+			<msg>
+				<div slot='header'>我是个头部</div>
+				<!-- 作用域插槽template -->
+				<!-- 当子组件的一部分需要外部来传递数据，并且需要循环的时候可以使用slot-scopr='props'下面书写的时候写上props.传输的值，还有排列形式 -->
+				<template slot-scope='props'>
+					<li>{{props.value}}</li>
+				</template>
+				<div slot='footer'>我是个脚部</div>
+				<!-- <h1>SOLT插槽</h1> -->
+				
+			</msg>
+		</div>
+		<script type="text/javascript">		
+			Vue.component('msg',{
+				data:function(){
+					return {
+						list:[1,2,3,4,5]
+					}
+				},
+				template:'<div><slot name="header">这里可以定义默认值</slot><slot v-for="value in list" :value="value"></slot><slot name="footer">这里可以定义默认值</slot></div>',
+				methods:{
+					handleClick:function(){
+						// 向父组件发送响应
+						this.bus.$emit('change',this.self)
+					}
+				},	
+			})
+			var root = new Vue({
+				el:'#root',	
+			})
+		</script>
+	</body>
+</html>
